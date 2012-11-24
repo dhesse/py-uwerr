@@ -1,0 +1,302 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Welcome to py-uwerr’s documentation! &mdash; py-uwerr 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="static/default.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="static/jquery.js"></script>
+    <script type="text/javascript" src="static/underscore.js"></script>
+    <script type="text/javascript" src="static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="py-uwerr 0.1 documentation" href="#" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="#">py-uwerr 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="welcome-to-py-uwerr-s-documentation">
+<h1>Welcome to py-uwerr&#8217;s documentation!<a class="headerlink" href="#welcome-to-py-uwerr-s-documentation" title="Permalink to this headline">¶</a></h1>
+<p>We implement the method to estimate autocorrelation times of Monte
+Carlo data presented in</p>
+<p>U. Wolff [ALPHA Collaboration], <em>Monte Carlo errors with less errors</em>,
+Comput. Phys. Commun.  <strong>156</strong>, 143 (2004) <tt class="docutils literal"><span class="pre">[hep-lat/0306017]</span></tt>.</p>
+<p><strong>PUBLICATIONS MAKING USE OF THIS CODE MUST CITE THE PAPER.</strong></p>
+<p>The main objective is the following: Data coming from a Monte Carlo
+simulation usually suffers from autocorrelation. It is not
+straight-forward to estimate this autocorrelation, which is required
+to give robust estimates for errors. This program implements a method
+proposed by Wolff to estimate autocorrelations in a safe way.</p>
+</div>
+<div class="section" id="quick-start">
+<h1>Quick start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h1>
+<p>This package contains code to generate correlated data, so we can
+conveniently demonstrate the basic functionality of the code in a
+short example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">puwr</span> <span class="kn">import</span> <span class="n">tauint</span><span class="p">,</span> <span class="n">correlated_data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">correlated_data</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="go">[[array([ 1.02833043,  1.08615234,  1.16421776,  1.15975754,</span>
+<span class="go">          1.23046603,  1.13941114,  1.1485227 ,  1.13464388,</span>
+<span class="go">          1.12461557,  1.15413354])]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mean</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">tint</span><span class="p">,</span> <span class="n">d_tint</span> <span class="o">=</span> <span class="n">tauint</span><span class="p">(</span><span class="n">correlated_data</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">200</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="s">&quot;mean = {0} +/- {1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">delta</span><span class="p">)</span>
+<span class="go">mean = 1.42726267057 +/- 0.03013853</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="s">&quot;tau_int = {0} +/- {1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tint</span><span class="p">,</span> <span class="n">d_tint</span><span class="p">)</span>
+<span class="go">tau_int = 9.89344869217 +/- 4.10466090332</span>
+</pre></div>
+</div>
+<p>The data is expected to be in the format
+<tt class="docutils literal"><span class="pre">data[observable][replicum][measurement]</span></tt>. See the documentation
+that comes with this code for more information.</p>
+<span class="target" id="module-puwr"></span><div class="section" id="module-puwr">
+<span id="puwr-error-analysis-for-monte-carlo-data-in-python"></span><h2><a class="reference internal" href="#module-puwr" title="puwr: MC error analysis as described by Wolff in CPC **156**, 143 (2004) (Unix, Windows)"><tt class="xref py py-mod docutils literal"><span class="pre">puwr</span></tt></a> &#8211; Error analysis for Monte Carlo data in python<a class="headerlink" href="#module-puwr" title="Permalink to this headline">¶</a></h2>
+<p>This module implements the method to estimate the autocorrelation time
+as described in <a class="footnote-reference" href="#id3" id="id1">[1]</a>.</p>
+<dl class="class">
+<dt id="puwr.DataProject">
+<em class="property">class </em><tt class="descclassname">puwr.</tt><tt class="descname">DataProject</tt><big>(</big><em>data</em><big>)</big><a class="reference internal" href="modules/puwr.html#DataProject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#puwr.DataProject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class to calculate the projected data</p>
+<div class="math">
+\[a_f^{i,r} = \sum_\alpha \bar{\bar f}_\alpha a_\alpha^{i,r}\]</div>
+<p>for arbitrary functions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> &#8211; The input data is assumed to be in the format
+<span class="math">\(\mathtt{data[}\alpha\mathtt{][r][i]} = a_\alpha^{i,r}\)</span>
+where <span class="math">\(i\)</span> labels the measurements, <span class="math">\(r\)</span> the replica
+and <span class="math">\(\alpha\)</span> the observables.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="puwr.DataProject.project">
+<tt class="descname">project</tt><big>(</big><em>f</em><big>)</big><a class="reference internal" href="modules/puwr.html#DataProject.project"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#puwr.DataProject.project" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the actual projected data w.r.t. the function
+<span class="math">\(f(A_1, ..., A_n)\)</span>,</p>
+<div class="math">
+\[\begin{split}a_f^{i,r} = \sum_\alpha \bar{\bar f}_\alpha a_\alpha^{i,r},\\
+f_\alpha = d f / d A_\alpha\end{split}\]</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>f</strong> &#8211; Function.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Projected data <span class="math">\(a_f^{i,r}\)</span> (array).</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="puwr.correlated_data">
+<tt class="descclassname">puwr.</tt><tt class="descname">correlated_data</tt><big>(</big><em>tau=5</em>, <em>n=10000</em><big>)</big><a class="reference internal" href="modules/puwr.html#correlated_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#puwr.correlated_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate correlated data as explained in the appendix of
+<a class="footnote-reference" href="#id3" id="id2">[1]</a>. One draws a sequence of <span class="math">\(n\)</span> normally distributed
+random numbers <span class="math">\(\eta_i, i = 1,\ldots,n\)</span> with unit variance
+and vanishing mean. From this one constructs</p>
+<div class="math">
+\[\begin{split}\nu_1 = \eta_1,\quad \nu_{i+1} = \sqrt{1 - a^2} \eta_{i+1} + a
+\nu_i\,,\\
+a = \frac {2 \tau - 1}{2\tau + 1}, \quad \tau \geq \frac 1 2\,,\end{split}\]</div>
+<p>where <span class="math">\(\tau\)</span> is the autocorrelation time.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>tau</strong> &#8211; Target autocorrelation time.</li>
+<li><strong>n</strong> &#8211; Number of data points to generate.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[1]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id2">2</a>, <a class="fn-backref" href="#id4">3</a>)</em> U. Wolff [ALPHA Collaboration], <em>Monte Carlo errors with
+less errors</em>, Comput. Phys. Commun.  <strong>156</strong>, 143 (2004)
+<tt class="docutils literal"><span class="pre">[hep-lat/0306017]</span></tt>.</td></tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="puwr.deriv">
+<tt class="descclassname">puwr.</tt><tt class="descname">deriv</tt><big>(</big><em>f</em>, <em>alpha</em>, <em>h</em><big>)</big><a class="reference internal" href="modules/puwr.html#deriv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#puwr.deriv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the partial numerical derivative of a function.</p>
+<div class="math">
+\[\partial_{i,h} f(x_0, \ldots, x_n) = \frac 1 {2h} \{ f(x_0,
+\dots, x_i + h, \ldots, x_n) - f(x_0,
+\dots, x_i - h, \ldots, x_n)\}.\]</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>f</strong> &#8211; Function.</li>
+<li><strong>alpha</strong> &#8211; Calculate partial derivative with
+respect to the alpha-th argument.</li>
+<li><strong>h</strong> &#8211; Step-size.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The derivative (function).</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="puwr.means">
+<tt class="descclassname">puwr.</tt><tt class="descname">means</tt><big>(</big><em>data</em><big>)</big><a class="reference internal" href="modules/puwr.html#means"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#puwr.means" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate per-observable means.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> &#8211; The input data is assumed to be in the format
+<span class="math">\(\mathtt{data[}\alpha\mathtt{][r][i]} = a_\alpha^{i,r}\)</span>
+where <span class="math">\(i\)</span> labels the measurements, <span class="math">\(r\)</span> the replica
+and <span class="math">\(\alpha\)</span> the observables.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="puwr.tauint">
+<tt class="descclassname">puwr.</tt><tt class="descname">tauint</tt><big>(</big><em>data</em>, <em>f</em>, <em>full_output=False</em>, <em>plots=False</em><big>)</big><a class="reference internal" href="modules/puwr.html#tauint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#puwr.tauint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimate the autocorrelation time of data as presented in
+<a class="footnote-reference" href="#id3" id="id4">[1]</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data</strong> &#8211; The input data is assumed to be in the format
+<span class="math">\(\mathtt{data[}\alpha\mathtt{][r][i]} = a_\alpha^{i,r}\)</span>
+where <span class="math">\(i\)</span> labels the measurements, <span class="math">\(r\)</span> the replica
+and <span class="math">\(\alpha\)</span> the observables.</li>
+<li><strong>f</strong> &#8211; Function or integer. If a function is passed, the
+autocorrelation time for the secondary observable, defined by
+the function applied to the input data (with the primary
+observables in the order they are given in <tt class="docutils literal"><span class="pre">data</span></tt> passed as
+arguments to <tt class="docutils literal"><span class="pre">f</span></tt>) is calculated. If an integer s passed, the
+auto-correlation time of <tt class="docutils literal"><span class="pre">data[f]</span></tt> is estimated.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A tuple containing the mean, variance, estimated
+autocorrelation and the estimated error thereof.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><em>Index</em></a></li>
+<li><a class="reference internal" href="py-modindex.html"><em>Module Index</em></a></li>
+<li><a class="reference internal" href="search.html"><em>Search Page</em></a></li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Welcome to py-uwerr&#8217;s documentation!</a></li>
+<li><a class="reference internal" href="#quick-start">Quick start</a><ul>
+<li><a class="reference internal" href="#module-puwr"><tt class="docutils literal"><span class="pre">puwr</span></tt> &#8211; Error analysis for Monte Carlo data in python</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="sources/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="#">py-uwerr 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Dirk Hesse.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
