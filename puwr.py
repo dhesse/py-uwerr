@@ -15,7 +15,7 @@ carefully to know what exactly this package does and how to interpret
 its output. Note also that there is a similar method described in [2]_
 which may be more suitable in your case.
 
-.. [1] U. Wolff [*ALPHA* Collaboration], *Monte Carlo errors with less
+.. [1] U. Wolff [**ALPHA** Collaboration], *Monte Carlo errors with less
    errors*, Comput. Phys. Commun.  **156**, 143 (2004)
    ``[hep-lat/0306017]``.
 

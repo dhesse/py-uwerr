@@ -53,7 +53,7 @@ Self tests
 -------------------------------------
 
 Note that there are unit-tests included in the code archive (located
-in the sub-directory ``test``. They might serve as a first guide-line
+in the sub-directory ``test``). They might serve as a first guide-line
 how the code can be used.
 
 .. automodule:: puwr
