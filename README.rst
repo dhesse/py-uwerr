@@ -10,7 +10,7 @@ Carlo data presented in
 U. Wolff [ALPHA Collaboration], *Monte Carlo errors with less errors*,
 Comput. Phys. Commun.  **156**, 143 (2004) ``[hep-lat/0306017]``.
 
-**PUBLICATIONS MAKING USE OF THIS CODE MUST CITE THIS PAPER.**
+**PUBLICATIONS MAKING USE OF THIS CODE MUST CITE THE PAPER.**
 
 The main objective is the following: Data coming from a Monte Carlo
 simulation usually suffers from autocorrelation. It is not

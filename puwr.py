@@ -8,7 +8,21 @@
      143 (2004)
 
 This module implements the method to estimate the autocorrelation time
-as described in [1]_.
+as described in [1]_. In the reference, the author provides an
+implementation in MATLAB. Our aim is to provide an alternative that
+does not depend on proprietary software. Make sure you read [1]_
+carefully to know what exactly this package does and how to interpret
+its output. Note also that there is a similar method described in [2]_
+which may be more suitable in your case.
+
+.. [1] U. Wolff [*ALPHA* Collaboration], *Monte Carlo errors with less
+   errors*, Comput. Phys. Commun.  **156**, 143 (2004)
+   ``[hep-lat/0306017]``.
+
+.. [2] S. Schaefer *et al.*  [**ALPHA** Collaboration],
+  *Critical slowing down and error analysis in lattice QCD simulations,*
+  Nucl. Phys. B **845**, 93 (2011) ``[arXiv:1009.5228 [hep-lat]]``.
+
 """
 
 import numpy as np
@@ -19,26 +33,57 @@ except:
     pass
 
 def means(data):
-    r"""Calculate per-observable means.
+    r"""Calculate per-observable means::
+
+      >>> from puwr import means
+      >>> import numpy as np
+      >>> data = [[np.linspace(0,10,20)],[np.linspace(10,20,20)]]
+      >>> means(data)
+      array([  5.,  15.])
     
     :param data: The input data is assumed to be in the format
-
-      .. math:
-
-        data[\alpha][r][i] =  a_\alpha^{i,r},
-
+      :math:`\mathtt{data[}\alpha\mathtt{][r][i]} = a_\alpha^{i,r}`
       where :math:`i` labels the measurements, :math:`r` the replica
       and :math:`\alpha` the observables.
     """
     return np.array([np.mean(np.hstack(i)) for i in data])
 
-class DataSanityCheckFail:
+class DataSanityCheckFail(Exception):
+    """Exception class."""
     def __init__(self, s):
         self.value = s
     def __str__(self):
         return repr(self.value)
 
 class DataInfo(object):
+    """Given an array of data points, extract information like the
+    number of observables, replica, and measurements per replicum. If
+    there is not the same number of measurements per replicum for each
+    observable, an exception is raised::
+
+      >>> from puwr import DataInfo, correlated_data
+      >>> d = DataInfo([[correlated_data(5,20)[0][0],
+      ...                correlated_data(6,20)[0][0]]])
+      >>> d.nobs  # 1 observable
+      1
+      >>> d.R     # 2 'replica'
+      2
+      >>> d.Nr    # 20 measurements / replicum
+      [20, 20]
+      >>> DataInfo([correlated_data(5,20)[0],
+      ...           correlated_data(6,29)[0]])
+      Traceback (most recent call last):
+        File "<stdin>", line 1, in <module>
+        File "puwr.py", line 61, in __init__
+          self.R = len(data[0]) # number of replica
+      puwr.DataSanityCheckFail: 'Inconsistent number of measurements/replicum'
+
+    :param data: The input data is assumed to be in the format
+      :math:`\mathtt{data[}\alpha\mathtt{][r][i]} = a_\alpha^{i,r}`
+      where :math:`i` labels the measurements, :math:`r` the replica
+      and :math:`\alpha` the observables.
+    :raises: :class:`DataSanityCheckFail`
+    """
     def __init__(self, data):
         self.nobs = len(data) # number of observables
         self.R = len(data[0]) # number of replica
@@ -47,15 +92,21 @@ class DataInfo(object):
         # check sanity of data
         for d in data:
             if [len(i) for i in d] != self.Nr:
-                raise DataSanityCheckFail(
-                    "Inconsistent number of measurements/replicum")
+                msg = "Inconsistent number of measurements/replicum"
+                raise DataSanityCheckFail(msg)
         self.N = sum(self.Nr)
 
 def deriv(f, alpha, h):
     r"""Calculates the partial numerical derivative of a function.
 
+    .. math::
+
+      \partial_{i,h} f(x_0, \ldots, x_n) = \frac 1 {2h} \{ f(x_0,
+      \dots, x_i + h, \ldots, x_n) - f(x_0,
+      \dots, x_i - h, \ldots, x_n)\}.
+
     :param f: Function.
-    :param alpha: Calculate partial derivative ith
+    :param alpha: Calculate partial derivative with
       respect to the alpha-th argument.
     :param h: Step-size.
     :returns: The derivative (function).
@@ -72,17 +123,15 @@ def deriv(f, alpha, h):
 class DataProject:
     r"""Class to calculate the projected data
 
-    ..math::
+    .. math::
 
-      a_f^{i,r} = \sum_\alpha \bar \bar f_\alpha a_\alpha^{i,r}
+      a_f^{i,r} = \sum_\alpha \bar{\bar{f}}_\alpha a_\alpha^{i,r}\,,
+      \quad f_\alpha = \frac{\mathrm d f}{\mathrm d A_\alpha}
 
     for arbitrary functions.
+
     :param data: The input data is assumed to be in the format
-
-      .. math:
-
-        data[\alpha][r][i] =  a_\alpha^{i,r},
-
+      :math:`\mathtt{data[}\alpha\mathtt{][r][i]} = a_\alpha^{i,r}`
       where :math:`i` labels the measurements, :math:`r` the replica
       and :math:`\alpha` the observables.
     """
@@ -98,13 +147,13 @@ class DataProject:
                       for obs, omean in zip(data, self.m)]) / self.d.N
         self.h = np.sqrt(G/self.d.N)
     def project(self, f):
-        """Calculate the actual projected data w.r.t. the function
+        r"""Calculate the actual projected data w.r.t. the function
         :math:`f(A_1, ..., A_n)`,
 
         .. math::
         
-          a_f^{i,r} = \sum_\alpha \bar \bar f_\alpha a_\alpha^{i,r},\\
-          f_\alpha = d f / d A_\alpha
+          a_f^{i,r} = \sum_\alpha \bar{\bar{f}}_\alpha a_\alpha^{i,r}\,,
+          \quad f_\alpha = \frac{\mathrm d f}{\mathrm d A_\alpha}
 
         :param f: Function.
         :returns: Projected data :math:`a_f^{i,r}` (array).
@@ -119,6 +168,29 @@ class DataProject:
                           for obs, falpha in zip (self.data, fa) )
 
 def gamma(data, f):
+    r"""Calculates an estimator for the autocorrelation function
+
+    .. math::
+
+      \bar{\bar{\Gamma}}_F(t) =& \sum_{\alpha\beta}
+        \bar{\bar{f}}_\alpha\,\bar{\bar{f}}_\beta
+        \bar{\bar{\Gamma}}_{\alpha\beta}(t)\,,\\
+      \bar{\bar{\Gamma}}_{\alpha\beta}(t) =&
+        \frac 1 {N -R t}
+        \sum_{r = 1}^R \sum_{i = 1}^{N_r -t}
+        (a_\alpha^{i,r} - \bar{\bar{a}}_\alpha)
+        (a_\beta^{i+t,r} - \bar{\bar{a}}_\beta)\,,\\
+      f_\alpha = \frac{\mathrm d f}{\mathrm d A_\alpha}
+
+    where :math:`f` is a function, :math:`i` labels the measurements,
+    :math:`r` the replica, and :math:`\alpha` the observables.
+
+    :param data: The input data is assumed to be in the format
+      :math:`\mathtt{data[}\alpha\mathtt{][r][i]} = a_\alpha^{i,r}`
+      where :math:`i` labels the measurements, :math:`r` the replica
+      and :math:`\alpha` the observables.
+    :param f: Function :math:`f` as above.
+    """
     # calculate the projected data
     d = DataProject(data)
     af = d.project(f)
@@ -132,6 +204,29 @@ def gamma(data, f):
                             for t in range(len(Gtil))]), d.d, om
 
 def tauint(data, f, full_output = False, plots=False):
+    r"""Estimate the autocorrelation time of data as presented in
+    [1]_.
+
+    :param data: The input data is assumed to be in the format
+      :math:`\mathtt{data[}\alpha\mathtt{][r][i]} = a_\alpha^{i,r}`
+      where :math:`i` labels the measurements, :math:`r` the replica
+      and :math:`\alpha` the observables.
+    :param f: Function or integer. If a function is passed, the
+      autocorrelation time for the secondary observable, defined by
+      the function applied to the input data (with the primary
+      observables in the order they are given in ``data`` passed as
+      arguments to ``f``) is calculated. If an integer s passed, the
+      auto-correlation time of ``data[f]`` is estimated.
+    :param full_output: If set to ``True``, the autocorrelation matrix
+      :math:`\bar{\bar{\Gamma}}` and the optimal window size :math:`W`
+      will be appended to the output.
+    :param plots: If set to ``True``, and if the ``matplotlib``
+      package is installed, plots are produced that depict the
+      autocorrelation matrix and estimated autocorrelation time
+      vs. the window size.
+    :returns: A tuple containing the mean, variance, estimated
+      autocorrelation and the estimated error thereof.
+    """
     G, d, means = gamma(data, f)
     s = 0
     sums = [0,]
@@ -182,7 +277,7 @@ def tauint(data, f, full_output = False, plots=False):
 def correlated_data(tau = 5, n = 10000):
     r"""Generate correlated data as explained in the appendix of
     [1]_. One draws a sequence of :math:`n` normally distributed
-    random numbers :math:`\eta_i, i = 1,\ldtos,n` with unit variance
+    random numbers :math:`\eta_i, i = 1,\ldots,n` with unit variance
     and vanishing mean. From this one constructs
 
     .. math::
@@ -191,14 +286,16 @@ def correlated_data(tau = 5, n = 10000):
       \nu_i\,,\\
       a = \frac {2 \tau - 1}{2\tau + 1}, \quad \tau \geq \frac 1 2\,,
 
-    where :math:`\tau` is the autocorrelation time.
+    where :math:`\tau` is the autocorrelation time::
+
+      >>> from puwr import correlated_data
+      >>> correlated_data(2, 10)
+      [[array([ 1.02833043,  1.08615234,  1.16421776,  1.15975754,
+                1.23046603,  1.13941114,  1.1485227 ,  1.13464388,
+                1.12461557,  1.15413354])]]
 
     :param tau: Target autocorrelation time.
     :param n: Number of data points to generate.
-
-    .. [1] U. Wolff [ALPHA Collaboration], *Monte Carlo errors with
-           less errors*, Comput. Phys. Commun.  **156**, 143 (2004)
-           ``[hep-lat/0306017]``.
     """
     eta = np.random.rand(n)
     a = (2. * tau - 1)/(2. * tau + 1)
@@ -210,6 +307,12 @@ def correlated_data(tau = 5, n = 10000):
     return [[nu*0.2 + 1]]
 
 def idf(n):
+    """Project on n-th argument::
+    
+       idf(n) = lambda *a : a[n]
+       
+    :param n: Number of element to project on.
+    """
     return lambda *a : a[n]
 
 if __name__ == "__main__":
