@@ -7,15 +7,12 @@ Welcome to py-uwerr's documentation!
 ====================================
 
 We implement the method to estimate autocorrelation times of Monte
-Carlo data presented in 
-
-U. Wolff [ALPHA Collaboration], *Monte Carlo errors with less errors*,
-Comput. Phys. Commun.  **156**, 143 (2004) ``[hep-lat/0306017]``.
+Carlo data presented in [1]_ .
 
 **PUBLICATIONS MAKING USE OF THIS CODE MUST CITE THE PAPER.**
 
-The main objective is the following: Data coming from a Monte Carlo
-simulation usually suffers from autocorrelation. It is not
+Data generated with most common Monte Carlo methods used in lattice
+field theory usually suffers from strong autocorrelation. It is not
 straight-forward to estimate this autocorrelation, which is required
 to give robust estimates for errors. This program implements a method
 proposed by Wolff to estimate autocorrelations in a safe way.
@@ -23,7 +20,17 @@ proposed by Wolff to estimate autocorrelations in a safe way.
 Quick start
 ===================
 
-This package contains code to generate correlated data, so we can
+The code can be grabbed directly from `github
+<https://github.com/dhesse/py-uwerr>`_, either via ``ssh`` or http:
+
+.. code-block:: shell
+
+  git clone git@github.com:dhesse/py-uwerr.git  # OR
+  git clone https://github.com/dhesse/py-uwerr.git
+
+or downloaded as a `.zip archive
+<https://github.com/dhesse/py-uwerr/archive/master.zip>`_.  The
+package contains code to generate correlated data, so we can
 conveniently demonstrate the basic functionality of the code in a
 short example::
 
@@ -40,7 +47,14 @@ short example::
 
 The data is expected to be in the format
 ``data[observable][replicum][measurement]``. See the documentation
-that comes with this code for more information.
+below for more information.
+
+Self tests
+-------------------------------------
+
+Note that there are unit-tests included in the code archive (located
+in the sub-directory ``test``. They might serve as a first guide-line
+how the code can be used.
 
 .. automodule:: puwr
    :members:

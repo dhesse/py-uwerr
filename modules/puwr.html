@@ -84,13 +84,13 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">data</span><span class="p">])</span>
 </div>
-<span class="k">class</span> <span class="nc">DataSanityCheckFail</span><span class="p">:</span>
+<div class="viewcode-block" id="DataSanityCheckFail"><a class="viewcode-back" href="../index.html#puwr.DataSanityCheckFail">[docs]</a><span class="k">class</span> <span class="nc">DataSanityCheckFail</span><span class="p">:</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">s</span>
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
-
-<span class="k">class</span> <span class="nc">DataInfo</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+</div>
+<div class="viewcode-block" id="DataInfo"><a class="viewcode-back" href="../index.html#puwr.DataInfo">[docs]</a><span class="k">class</span> <span class="nc">DataInfo</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nobs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="c"># number of observables</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">R</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="c"># number of replica</span>
@@ -102,7 +102,7 @@
                 <span class="k">raise</span> <span class="n">DataSanityCheckFail</span><span class="p">(</span>
                     <span class="s">&quot;Inconsistent number of measurements/replicum&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">N</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nr</span><span class="p">)</span>
-
+</div>
 <div class="viewcode-block" id="deriv"><a class="viewcode-back" href="../index.html#puwr.deriv">[docs]</a><span class="k">def</span> <span class="nf">deriv</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">h</span><span class="p">):</span>
     <span class="sd">r&quot;&quot;&quot;Calculates the partial numerical derivative of a function.</span>
 
@@ -170,7 +170,7 @@
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span> <span class="p">[</span><span class="n">rep</span> <span class="o">*</span> <span class="n">falpha</span> <span class="k">for</span> <span class="n">rep</span> <span class="ow">in</span> <span class="n">obs</span><span class="p">]</span> <span class="p">)</span>
                           <span class="k">for</span> <span class="n">obs</span><span class="p">,</span> <span class="n">falpha</span> <span class="ow">in</span> <span class="nb">zip</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">fa</span><span class="p">)</span> <span class="p">)</span>
 </div></div>
-<span class="k">def</span> <span class="nf">gamma</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
+<div class="viewcode-block" id="gamma"><a class="viewcode-back" href="../index.html#puwr.gamma">[docs]</a><span class="k">def</span> <span class="nf">gamma</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
     <span class="c"># calculate the projected data</span>
     <span class="n">d</span> <span class="o">=</span> <span class="n">DataProject</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
     <span class="n">af</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">project</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
@@ -182,7 +182,7 @@
                    <span class="k">for</span> <span class="n">rep</span> <span class="ow">in</span> <span class="n">af</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">Gtil</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.</span><span class="o">/</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">d</span><span class="o">.</span><span class="n">N</span> <span class="o">-</span> <span class="n">d</span><span class="o">.</span><span class="n">d</span><span class="o">.</span><span class="n">R</span><span class="o">*</span><span class="n">t</span><span class="p">)</span> 
                             <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Gtil</span><span class="p">))]),</span> <span class="n">d</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="n">om</span>
-
+</div>
 <div class="viewcode-block" id="tauint"><a class="viewcode-back" href="../index.html#puwr.tauint">[docs]</a><span class="k">def</span> <span class="nf">tauint</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">full_output</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">plots</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
     <span class="n">G</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">means</span> <span class="o">=</span> <span class="n">gamma</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
     <span class="n">s</span> <span class="o">=</span> <span class="mi">0</span>
@@ -261,9 +261,9 @@
         <span class="n">nu</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">asq</span><span class="p">)</span><span class="o">*</span><span class="n">eta</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">a</span> <span class="o">*</span> <span class="n">nu</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
     <span class="k">return</span> <span class="p">[[</span><span class="n">nu</span><span class="o">*</span><span class="mf">0.2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]</span>
 </div>
-<span class="k">def</span> <span class="nf">idf</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+<div class="viewcode-block" id="idf"><a class="viewcode-back" href="../index.html#puwr.idf">[docs]</a><span class="k">def</span> <span class="nf">idf</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
     <span class="k">return</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">a</span> <span class="p">:</span> <span class="n">a</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
-
+</div>
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
     <span class="n">mean</span><span class="p">,</span> <span class="n">err</span><span class="p">,</span> <span class="n">tint</span><span class="p">,</span> <span class="n">dtint</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">tauint</span><span class="p">(</span><span class="n">correlated_data</span><span class="p">(),</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
     <span class="k">print</span> <span class="s">&quot; mean =&quot;</span><span class="p">,</span> <span class="n">mean</span>
