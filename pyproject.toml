@@ -39,3 +39,9 @@ dependencies = [
 
 [tool.flit.module]
 name = "puwr"
+
+
+[project.optional-dependencies]
+test = [
+    "tox==3.24.1",
+]
