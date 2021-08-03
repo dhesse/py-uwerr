@@ -4,3 +4,4 @@ doc/doctrees/
 doc/html/
 doc/sphinxtogithub.py
 *~
+dist/*
