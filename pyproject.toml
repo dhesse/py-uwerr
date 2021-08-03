@@ -45,3 +45,6 @@ name = "puwr"
 test = [
     "tox==3.24.1",
 ]
+doc = [
+    "sphinx",
+]
