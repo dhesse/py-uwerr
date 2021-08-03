@@ -32,6 +32,9 @@ try:
 except:
     pass
 
+__version__ = "0.1"
+
+
 def means(data):
     r"""Calculate per-observable means::
 
@@ -39,7 +42,7 @@ def means(data):
       >>> import numpy as np
       >>> data = [[np.linspace(0,10,20)],[np.linspace(10,20,20)]]
       >>> means(data)
-      array([  5.,  15.])
+      array([ 5., 15.])
     
     :param data: The input data is assumed to be in the format
       :math:`\mathtt{data[}\alpha\mathtt{][r][i]} = a_\alpha^{i,r}`
@@ -290,14 +293,14 @@ def correlated_data(tau = 5, n = 10000):
 
       >>> from puwr import correlated_data
       >>> correlated_data(2, 10)
-      [[array([ 1.02833043,  1.08615234,  1.16421776,  1.15975754,
-                1.23046603,  1.13941114,  1.1485227 ,  1.13464388,
-                1.12461557,  1.15413354])]]
+      [[array([1.1703499 , 1.18119393, 1.17114224, 1.13142256, 1.09497294,
+             1.18182216, 1.23490896, 1.28032049, 1.21973591, 1.15085657])]]
 
     :param tau: Target autocorrelation time.
     :param n: Number of data points to generate.
     """
-    eta = np.random.rand(n)
+    rng = np.random.default_rng(125)
+    eta = rng.random(n)
     a = (2. * tau - 1)/(2. * tau + 1)
     asq = a**2
     nu = np.zeros(n)
