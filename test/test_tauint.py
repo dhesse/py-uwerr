@@ -27,7 +27,7 @@ class TestPrimary(TestCase):
             mean, err, tau, dtau = tauint(data, 0)
             if tau - 3*dtau > known_tau or \
                 tau + 3*dtau < known_tau:
-                print tau - known_tau, dtau
+                print(tau - known_tau, dtau)
                 fails += 1
         self.assertGreaterEqual(1, fails)
     def test_with_correlated_data_multiple_replica(self):
@@ -45,7 +45,7 @@ class TestPrimary(TestCase):
             mean, err, tau, dtau = tauint(data, 0)
             if tau - 3*dtau > known_tau or \
                 tau + 3*dtau < known_tau:
-                print tau - known_tau, dtau
+                print(tau - known_tau, dtau)
                 fails += 1
         self.assertGreaterEqual(0, fails)
     
@@ -65,7 +65,7 @@ class SecondaryTest(TestCase):
             mean, err, tau, dtau = tauint(data, lambda x, y: x + y)
             if tau - 3*dtau > known_tau or \
                 tau + 3*dtau < known_tau:
-                print tau - known_tau, dtau
+                print(tau - known_tau, dtau)
                 fails += 1
         self.assertGreaterEqual(0, fails)
     def test_secondary_multiple_replica_product(self):
@@ -81,7 +81,7 @@ class SecondaryTest(TestCase):
             mean, err, tau, dtau = tauint(data, lambda x, y: x * y)
             if tau - 3*dtau > known_tau or \
                 tau + 3*dtau < known_tau:
-                print tau - known_tau, dtau
+                print(tau - known_tau, dtau)
                 fails += 1
         self.assertGreaterEqual(0, fails)
 if __name__ == "__main__":

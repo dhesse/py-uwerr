@@ -252,13 +252,13 @@ def tauint(data, f, full_output = False, plots=False):
             tplt = fig.add_subplot(211)
             tplt.set_ylabel(r'$\tau_{\mathrm{int}}$')
             tplt.set_xlabel(r'$W$')
-            plt.errorbar(range(xmax)[::step], tint[:xmax:step], 
+            plt.errorbar(list(range(xmax))[::step], tint[:xmax:step], 
                          dtint[:xmax:step], fmt="o", color='b')
             plt.axvline(W, color='r')
             Gplt = fig.add_subplot(212)
             Gplt.set_ylabel(r'$\Gamma$')
             Gplt.set_xlabel('$W$')
-            plt.errorbar(range(xmax)[::step], G[:xmax:step], 
+            plt.errorbar(list(range(xmax))[::step], G[:xmax:step], 
                          fmt="o", color='b')
             plt.axvline(W+1, color='r')
             plt.show()
@@ -317,6 +317,6 @@ def idf(n):
 
 if __name__ == "__main__":
     mean, err, tint, dtint, G, W = tauint(correlated_data(), 0, True)
-    print " mean =", mean
-    print "error =", err
-    print " tint = {0} +/- {1}".format(tint, dtint)
+    print(" mean =", mean)
+    print("error =", err)
+    print(" tint = {0} +/- {1}".format(tint, dtint))
