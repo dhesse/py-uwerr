@@ -22,6 +22,19 @@ proposed by Wolff to estimate autocorrelations in a safe way.
 Quick start
 ===========
 
+Installation
+------------
+
+Just::
+
+  $ pip install py-uwerr
+
+should be enough to install this library from the PyPI.
+
+
+Usage
+-----
+
 This package contains code to generate correlated data, so we can
 conveniently demonstrate the basic functionality of the code in a
 short example::
