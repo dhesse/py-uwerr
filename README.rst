@@ -1,6 +1,6 @@
-==========================
- Analysis of Monte Carlo data 
-==========================
+============================
+Analysis of Monte Carlo data
+============================
 
 Author: Dirk Hesse <herr.dirk.hesse@gmail.com>
 
@@ -18,8 +18,22 @@ straight-forward to estimate this autocorrelation, which is required
 to give robust estimates for errors. This program implements a method
 proposed by Wolff to estimate autocorrelations in a safe way.
 
+
 Quick start
-===================
+===========
+
+Installation
+------------
+
+Just::
+
+  $ pip install py-uwerr
+
+should be enough to install this library from the PyPI.
+
+
+Usage
+-----
 
 This package contains code to generate correlated data, so we can
 conveniently demonstrate the basic functionality of the code in a
@@ -40,7 +54,8 @@ The data is expected to be in the format
 ``data[observable][replicum][measurement]``. See the documentation
 that comes with this code for more information.
 
+
 License
-====================
+=======
 
 See LICENSE file.

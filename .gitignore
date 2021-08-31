@@ -3,3 +3,6 @@ doc/_build
 doc/doctrees/
 doc/html/
 doc/sphinxtogithub.py
+*~
+dist/*
+.tox/*

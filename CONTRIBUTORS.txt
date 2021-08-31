@@ -1,0 +1,8 @@
+Project created by Dirk Hesse.
+
+Contributors:
+
+- David Palao (david.palao@gmail.com):
+
+  - migration to Python3
+  - preparing project for distribution

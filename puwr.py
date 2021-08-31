@@ -25,6 +25,9 @@ which may be more suitable in your case.
 
 """
 
+__version__ = "0.1"
+
+
 import numpy as np
 from scipy import signal
 try:
@@ -39,7 +42,7 @@ def means(data):
       >>> import numpy as np
       >>> data = [[np.linspace(0,10,20)],[np.linspace(10,20,20)]]
       >>> means(data)
-      array([  5.,  15.])
+      array([ 5., 15.])
     
     :param data: The input data is assumed to be in the format
       :math:`\mathtt{data[}\alpha\mathtt{][r][i]} = a_\alpha^{i,r}`
@@ -142,10 +145,11 @@ class DataProject:
         # compute the step size h = sqrt( Gamma_aa / N )
         # first Gamma_aa
         self.m = means(data)
-        G = np.array([np.sum ( np.sum( (rep - omean)**2 ) 
-                           for rep in obs )
+        G = np.array([np.sum(np.sum( (rep - omean)**2 ) 
+                                 for rep in obs )
                       for obs, omean in zip(data, self.m)]) / self.d.N
         self.h = np.sqrt(G/self.d.N)
+
     def project(self, f):
         r"""Calculate the actual projected data w.r.t. the function
         :math:`f(A_1, ..., A_n)`,
@@ -252,13 +256,13 @@ def tauint(data, f, full_output = False, plots=False):
             tplt = fig.add_subplot(211)
             tplt.set_ylabel(r'$\tau_{\mathrm{int}}$')
             tplt.set_xlabel(r'$W$')
-            plt.errorbar(range(xmax)[::step], tint[:xmax:step], 
+            plt.errorbar(list(range(xmax))[::step], tint[:xmax:step], 
                          dtint[:xmax:step], fmt="o", color='b')
             plt.axvline(W, color='r')
             Gplt = fig.add_subplot(212)
             Gplt.set_ylabel(r'$\Gamma$')
             Gplt.set_xlabel('$W$')
-            plt.errorbar(range(xmax)[::step], G[:xmax:step], 
+            plt.errorbar(list(range(xmax))[::step], G[:xmax:step], 
                          fmt="o", color='b')
             plt.axvline(W+1, color='r')
             plt.show()
@@ -290,14 +294,14 @@ def correlated_data(tau = 5, n = 10000):
 
       >>> from puwr import correlated_data
       >>> correlated_data(2, 10)
-      [[array([ 1.02833043,  1.08615234,  1.16421776,  1.15975754,
-                1.23046603,  1.13941114,  1.1485227 ,  1.13464388,
-                1.12461557,  1.15413354])]]
+      [[array([1.13647037, 1.09049359, 1.08955373, 1.08323173, 1.07808398,
+             1.17678551, 1.25380651, 1.19653581, 1.24908221, 1.29183216])]]
 
     :param tau: Target autocorrelation time.
     :param n: Number of data points to generate.
     """
-    eta = np.random.rand(n)
+    rng = np.random.default_rng(123)
+    eta = rng.random(n)
     a = (2. * tau - 1)/(2. * tau + 1)
     asq = a**2
     nu = np.zeros(n)
@@ -317,6 +321,6 @@ def idf(n):
 
 if __name__ == "__main__":
     mean, err, tint, dtint, G, W = tauint(correlated_data(), 0, True)
-    print " mean =", mean
-    print "error =", err
-    print " tint = {0} +/- {1}".format(tint, dtint)
+    print(" mean =", mean)
+    print("error =", err)
+    print(" tint = {0} +/- {1}".format(tint, dtint))

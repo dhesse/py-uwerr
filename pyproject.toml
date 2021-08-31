@@ -1,0 +1,50 @@
+# [build-system]
+# # Minimum requirements for the build system to execute.
+# requires = ["setuptools", "wheel"]  # PEP 508 specifications.
+
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "py-uwerr"
+description = """
+Pure Python library that implements Wolff's method to compute autocorrelation times\
+of Monte Carlo series."""
+authors = [{name="Dirk Hesse", email="herr.dirk.hesse@gmail.com"}]
+urls = {github="https://github.com/dhesse/py-uwerr"}
+readme = "README.rst"
+keywords = ["Monte Carlo", "autocorrelation time", "tau int", "statistics"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Libraries"
+]
+requires-python = ">=3.6"
+dynamic = ["version"]
+dependencies = [
+    "numpy",
+    "scipy",
+    "matplotlib"
+]
+
+[tool.flit.module]
+name = "puwr"
+
+
+[project.optional-dependencies]
+test = [
+    "tox==3.24.1",
+]
+doc = [
+    "sphinx",
+]
